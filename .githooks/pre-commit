@@ -1,0 +1,36 @@
+#!/bin/sh
+set -eu
+
+memory_file="AGENTS.md"
+memory_limit=20000
+
+if ! git rev-parse --show-toplevel >/dev/null 2>&1; then
+  exit 0
+fi
+
+repo_root=$(git rev-parse --show-toplevel)
+cd "$repo_root"
+
+if ! git ls-files --error-unmatch "$memory_file" >/dev/null 2>&1; then
+  exit 0
+fi
+
+if ! git diff --quiet -- "$memory_file"; then
+  git add -- "$memory_file"
+  printf '%s\n' "pre-commit: staged global memory update: $memory_file"
+fi
+
+# Validate the exact blob that will be committed, after preserving the existing
+# convenience staging behavior above.
+staged_memory=$(mktemp "${TMPDIR:-/tmp}/codex-agents.XXXXXX")
+trap 'rm -f "$staged_memory"' EXIT HUP INT TERM
+git show ":$memory_file" > "$staged_memory"
+# The final section for requirements the user specially designates as mandatory
+# ("本人指定の必須要件") is excluded from the cap.
+checker="skills/edit-global-memory/scripts/check_memory_size.py"
+if ! python3 "$checker" "$staged_memory" --limit "$memory_limit"; then
+  printf '%s\n' "ERROR: AGENTS.md exceeds $memory_limit bytes outside the 本人指定の必須要件 section. Reduce the text while preserving the required behavior and response quality." >&2
+  exit 1
+fi
+
+exit 0
