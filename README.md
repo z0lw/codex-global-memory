@@ -1,8 +1,8 @@
 # codex-global-memory
 
-[OpenAI Codex](https://github.com/openai/codex) のグローバルメモリ（`~/.codex/AGENTS.md`）の公開版です。作者が使っている約3万バイトのメモリを、他の人にも役立つ判断を中心に約5,000バイトへ縮めました。依頼の目的・範囲・許可を保つこと、途中で止まらず実際に操作して確かめること、誤りを認めたらその場で原因を直すことを書いています。作者の環境だけで使う規則（委任先のモデル、個別のサービスなど）は外しています。
+[OpenAI Codex](https://github.com/openai/codex) のグローバルメモリ（`~/.codex/AGENTS.md`）の公開版です。作者のメモリは、毎回読み込む本体（約2万バイト）と、特定の場面でだけ読む規則スキルに分けています。その本体を、他の人にも役立つ判断を中心に約5,700バイトへ縮めました。依頼の目的・範囲・許可を保つこと、途中で止まらず実際に操作して確かめること、誤りを認めたらその場で原因を直すことを書いています。作者の環境だけで使う規則（委任先のモデル、個別のサービスなど）は外しています。
 
-関連: スキル集 https://github.com/z0lw/codex-skills 、フック集 https://github.com/z0lw/codex-consent-hooks
+関連: スキル集 https://github.com/z0lw/codex-skills （場面別の規則スキル `asking-and-permission`・`side-effects-and-sending`、作業の記録 `task-ledger` を含む）、フック集 https://github.com/z0lw/codex-consent-hooks
 
 ## Codex に導入を頼む場合
 
@@ -28,7 +28,7 @@ https://github.com/z0lw/codex-global-memory のグローバルメモリから、
 
 | ファイル | 内容 |
 | --- | --- |
-| `AGENTS.md` | グローバルメモリ（約5,000バイト） |
+| `AGENTS.md` | グローバルメモリ（約5,700バイト） |
 | `.githooks/pre-commit` | `AGENTS.md` の大きさを検査する Git フック（任意） |
 
 ## License
